@@ -1,4 +1,4 @@
-ENGLISH:
+# ENGLISH:
 
 This modification allows you to take "Synthetic Fertility" as a civic, which will allow you to quickly transform your population into synthetics without taking the appropriate origin.
 
@@ -16,7 +16,7 @@ If you know a way to overwrite the tradition file partially, please let me know.
 
 Thanks MingCR from Stellaris Modding Den for help!
 
-РУССКИЙ:
+# РУССКИЙ:
 
 Эта модификация позволяет взять "Синтетическую фертильность" как цивик, что позволит вам быстро трансформировать ваше население в синтетиков не беря при этом соответствующее происхождение.
 
