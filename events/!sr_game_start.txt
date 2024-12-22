@@ -1,0 +1,112 @@
+namespace = game_start
+### Hidden Game Start Event
+event = {
+	id = game_start.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		# Synthetic Fertility
+		every_playable_country = {
+			limit = {
+				OR = {
+					has_origin = origin_synthetic_fertility
+					has_civic = synthetic_fertility_civic
+				}
+			}
+			country_event = {
+				id = machine_age.3100
+			}
+		}
+		# Arc Welders
+		every_playable_country = {
+			limit = {
+				has_origin = origin_arc_welders
+			}
+			arc_welders_start_effect = yes
+		}
+		# Astro-Mining Drones
+		every_playable_country = {
+			limit = {
+				has_valid_civic = civic_machine_astromining_drones
+			}
+			random_owned_starbase = {
+				set_starbase_module = {
+					slot = 2
+					module = astromining_bay
+				}
+			}
+		}
+		# Genesis Guides
+		every_playable_country = {
+			limit = {
+				is_guided_sapience_empire = yes
+			}
+			set_variable = {
+				which = presapients_guided
+				value = 1
+			}
+			set_country_flag = found_presapients
+			capital_scope = {
+				spawn_presapient_species_randomizer_homeworld_effect = yes
+				add_deposit = d_genesis_preserve
+				set_planet_flag = pre_sapient_planet
+			}
+		}
+		# Natural Design
+		every_playable_country = {
+			limit = {
+				is_natural_design_empire = yes
+				capital_scope = {
+					free_building_slots > 0
+				}
+			}
+			if = {
+				limit = {
+					is_hive_empire = yes
+				}
+				capital_scope = {
+					add_building = building_hive_transcendental_retreat
+				}
+			}
+			if = {
+				limit = {
+					is_hive_empire = no
+				}
+				capital_scope = {
+					add_building = building_transcendental_retreat
+				}
+			}
+		}
+		# Spyware Directives
+		every_playable_country = {
+			limit = {
+				has_first_contact_dlc = yes
+				has_civic = civic_machine_spybots
+			}
+			add_research_option = tech_cloaking_1
+		}
+		every_playable_country = {
+			limit = {
+				is_ascensionist_empire = yes
+			}
+			every_owned_planet = {
+				set_planetary_ascension_tier = 1
+			}
+		}
+		every_playable_country = {
+			limit = {
+				has_valid_civic = civic_machine_obsessional_directive
+			}
+			obsessional_directive_start_effect = yes
+		}
+		if = {
+			#If someone has Beastmasters civic, spawn amoeba already to give them communication
+			limit = {
+				any_country = {
+					is_beastmasters_empire = yes
+				}
+			}
+			create_amoeba_country = yes
+		}
+	}
+}

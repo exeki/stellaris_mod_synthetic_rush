@@ -1,0 +1,706 @@
+#########################################
+#										#
+# Cybernetic Creed Events & Situation	#
+# Haig Morrison
+#		 								#
+#########################################
+namespace = machine_age
+#############################################
+#											#
+#					 						#
+# Synthetic Fertility Events & Situation	#
+# Haig Morrison								#
+#											#
+#											#
+#############################################
+# A pop has finished declining (while not being purged)
+# This = Planet scope
+# From = Country
+# FromFrom = Pop
+#Synthetic Fertility Killing Pops Events
+country_event = {
+	id = machine_age.3000
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_origin = origin_synthetic_fertility
+			has_civic = synthetic_fertility_civic
+		}
+	}
+	immediate = {
+		from = {
+			change_variable = {
+				which = num_dead_identities
+				value = 1
+			}
+			change_variable = {
+				which = remaining_synth_fert_pops
+				value = -1
+			}
+		}
+	}
+}
+
+country_event = {
+	id = machine_age.3100
+	title = "machine_age.3100.name"
+	desc = "machine_age.3100.desc"
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_origin = origin_synthetic_fertility
+			has_civic = synthetic_fertility_civic
+		}
+	}
+	immediate = {
+		start_situation = {
+			type = situation_synthetic_fertility_digitization
+			target = root
+		}
+		begin_event_chain = {
+			event_chain = "synthetic_fertility_chain"
+			target = this
+		}
+	}
+	option = {
+		name = "machine_age.3100.a"
+		add_tech_option_or_research_effect = {
+			TECH = tech_robotic_workers
+			PROGRESS = 0.25
+			CATEGORY = engineering_research
+		}
+	}
+}
+
+country_event = {
+	id = machine_age.3110
+	title = "machine_age.3110.name"
+	desc = "machine_age.3110.desc"
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_origin = origin_synthetic_fertility
+			has_civic = synthetic_fertility_civic
+		}
+		has_technology = tech_robotic_workers
+		NOT = {
+			has_country_flag = origin_synthetic_fertility_robots
+		}
+	}
+	immediate = {
+		set_country_flag = origin_synthetic_fertility_robots
+	}
+	option = {
+		name = "machine_age.3110.a"
+		custom_tooltip = "machine_age.3110.a.tooltip"
+		add_tech_option_or_research_effect = {
+			TECH = tech_droid_workers
+			PROGRESS = 0.2
+			CATEGORY = engineering_research
+		}
+		hidden_effect = {
+			create_built_robot_species = yes
+			last_created_species = {
+				save_global_event_target_as = synth_fert_surrogate@root.owner
+				set_citizenship_type = {
+					country = ROOT
+					type = citizenship_full
+					cooldown = yes
+				}
+			}
+			random_owned_planet = {
+				limit = {
+					is_capital = yes
+				}
+				remove_building = building_abandoned_gene_clinic
+				add_building = building_robot_assembly_plant
+				while = {
+					count = 3
+					create_pop = {
+						species = last_created_species
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	id = machine_age.3115
+	title = "machine_age.3115.name"
+	desc = "machine_age.3115.desc"
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_origin = origin_synthetic_fertility
+			has_civic = synthetic_fertility_civic
+		}
+		has_technology = tech_droid_workers
+		NOT = {
+			has_country_flag = origin_synthetic_fertility_droids
+		}
+	}
+	immediate = {
+		every_owned_species = {
+			limit = {
+				has_trait = trait_mechanical
+			}
+			set_colonization_controls = {
+				country = ROOT
+				type = colonization_control_no
+				cooldown = yes
+			}
+			set_citizenship_type = {
+				country = ROOT
+				type = citizenship_full
+				cooldown = yes
+			}
+			set_military_service_type = {
+				country = ROOT
+				type = military_service_full
+				cooldown = yes
+			}
+		}
+		set_country_flag = origin_synthetic_fertility_droids
+	}
+	option = {
+		name = "machine_age.3115.a"
+		add_tech_option_or_research_effect = {
+			TECH = tech_synthetic_workers
+			PROGRESS = 0.15
+			CATEGORY = engineering_research
+		}
+	}
+}
+
+country_event = {
+	id = machine_age.3120
+	title = "machine_age.3120.name"
+	desc = "machine_age.3120.desc"
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_origin = origin_synthetic_fertility
+			has_civic = synthetic_fertility_civic
+		}
+		has_technology = tech_synthetic_workers
+		NOT = {
+			has_country_flag = origin_synthetic_fertility_synths
+		}
+	}
+	immediate = {
+		set_country_flag = origin_synthetic_fertility_synths
+		give_technology = {
+			tech = tech_synthetic_leaders
+			message = no
+		}
+		every_owned_species = {
+			limit = {
+				has_trait = trait_mechanical
+			}
+			set_citizenship_type = {
+				country = ROOT
+				type = citizenship_full
+				cooldown = yes
+			}
+			set_military_service_type = {
+				country = ROOT
+				type = military_service_full
+				cooldown = yes
+			}
+		}
+	}
+	option = {
+		name = "machine_age.3120.a"
+		custom_tooltip = "machine_age.3120.a.tooltip"
+	}
+}
+
+country_event = {
+	id = machine_age.3125
+	title = "machine_age.3125.name"
+	desc = {
+		trigger = {
+			owner = {
+				NOT = {
+					has_country_flag = synthetic_fertility_no_bodies_left
+				}
+			}
+		}
+		text = machine_age.3125.desc
+	}
+	desc = {
+		trigger = {
+			owner = {
+				has_country_flag = synthetic_fertility_no_bodies_left
+			}
+		}
+		text = machine_age.3125.nobody.desc
+	}
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	trigger = {
+		OR = {
+			has_origin = origin_synthetic_fertility
+			has_civic = synthetic_fertility_civic
+		}
+		has_tradition = tr_synthetics_adopt
+		NOT = {
+			has_country_flag = synthetics_traditions_unlocked
+		}
+	}
+	immediate = {
+		set_country_flag = origin_synthetic_fertility_synths
+		random_situation = {
+			limit = {
+				is_situation_type = situation_synthetic_fertility_digitization
+			}
+			destroy_situation = this
+		}
+		if = {
+			limit = {
+				has_country_flag = synthetic_fertility_no_bodies_left
+			}
+			capital_scope = {
+				create_synth_species_effect = yes
+			}
+			capital_scope = {
+				create_pop = {
+					species = event_target:synthspecies@root.owner
+				}
+			}
+		}
+	}
+	option = {
+		name = "synth.105.a"
+		custom_tooltip = "synth.105.a.tt"
+		owner = {
+			set_country_flag = synth_focus_rulers
+		}
+		start_situation = {
+			type = situation_synthetic_fertility_synthesization
+			target = root
+		}
+	}
+	option = {
+		name = "synth.105.b"
+		custom_tooltip = "synth.105.b.tt"
+		owner = {
+			set_country_flag = synth_focus_specialists
+		}
+		start_situation = {
+			type = situation_synthetic_fertility_synthesization
+			target = root
+		}
+	}
+	option = {
+		name = "synth.105.c"
+		custom_tooltip = "synth.105.c.tt"
+		owner = {
+			set_country_flag = synth_focus_workers
+		}
+		start_situation = {
+			type = situation_synthetic_fertility_synthesization
+			target = root
+		}
+	}
+	option = {
+		name = "synth.105.d"
+		custom_tooltip = "synth.105.d.tt"
+		owner = {
+			set_country_flag = synth_focus_upkeep
+		}
+		start_situation = {
+			type = situation_synthetic_fertility_synthesization
+			target = root
+		}
+	}
+}
+
+#Everyone is dead
+situation_event = {
+	id = machine_age.3200
+	title = "machine_age.3200.name"
+	desc = "machine_age.3200.desc"
+	picture = GFX_evt_city_ruins
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	immediate = {
+		destroy_situation = this
+		owner = {
+			set_country_flag = synthetic_fertility_no_bodies_left
+			owner_main_species = {
+				set_species_flag = holographic_appearance
+			}
+			every_owned_leader = {
+				limit = {
+					is_same_species = owner
+					NOT = {
+						has_trait = leader_trait_intemporal
+					}
+				}
+				change_species = event_target:synth_fert_surrogate@root.owner
+				add_trait_no_notify = leader_trait_robotic_surrogate
+				set_age = 1
+			}
+			random_owned_leader = {
+				limit = {
+					is_ruler = yes
+					NOT = {
+						has_trait = leader_trait_intemporal
+					}
+				}
+				change_leader_portrait = event_target:synth_fert_surrogate@root.owner
+				add_trait_no_notify = leader_trait_robotic_surrogate
+				set_age = 1
+			}
+			every_pool_leader = {
+				limit = {
+					is_same_species = owner
+				}
+				change_species = event_target:synth_fert_surrogate@root.owner
+				add_trait_no_notify = leader_trait_robotic_surrogate
+				set_age = 1
+			}
+			refresh_portraits = character
+		}
+	}
+	option = {
+		name = UNDERSTOOD
+	}
+}
+
+#Final Choice for the Pops and Identities
+situation_event = {
+	id = machine_age.3305
+	title = "machine_age.3305.name"
+	desc = "machine_age.3305.desc"
+	picture = GFX_evt_virtual_world
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	immediate = {
+		owner = {
+			every_owned_planet = {
+				reset_decline = yes
+			}
+		}
+	}
+	option = {
+		name = "machine_age.3305.a"
+		custom_tooltip = "machine_age.3305.a.tooltip"
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = "machine_age.3305.b"
+		custom_tooltip = "machine_age.3305.b.tooltip"
+		hidden_effect = {
+			owner = {
+				while = {
+					limit = {
+						any_owned_pop = {
+							NOT = {
+								is_same_species = owner.species
+							}
+							is_robot_pop = yes
+						}
+					}
+					count = num_dead_identities
+					random_owned_pop = {
+						limit = {
+							NOT = {
+								is_same_species = owner.species
+							}
+							is_robot_pop = yes
+						}
+						change_species = event_target:synthspecies@root.owner
+					}
+					change_variable = {
+						which = num_dead_identities
+						value = -1
+					}
+				}
+				while = {
+					count = num_dead_identities
+					capital_scope = {
+						create_pop = {
+							species = event_target:synthspecies@root.owner
+						}
+					}
+					change_variable = {
+						which = num_dead_identities
+						value = -1
+					}
+				}
+				set_country_flag = synthetic_fertility_no_identity_left_behind
+				every_owned_planet = {
+					remove_building = building_identity_repository
+				}
+			}
+		}
+		ai_chance = {
+			factor = 1
+		}
+	}
+	after = {
+		hidden_effect = {
+			owner = {
+				every_owned_leader = {
+					limit = {
+						has_trait = leader_trait_robotic_surrogate
+					}
+					change_species = event_target:synthspecies@root.owner
+					add_trait_no_notify = leader_trait_synthetic
+					set_age = 1
+					remove_trait = leader_trait_robotic_surrogate
+				}
+				random_owned_leader = {
+					limit = {
+						is_ruler = yes
+						NOT = {
+							has_trait = leader_trait_intemporal
+						}
+					}
+					change_leader_portrait = event_target:synthspecies@root.owner
+					add_trait_no_notify = leader_trait_synthetic
+					set_age = 1
+					remove_trait = leader_trait_robotic_surrogate
+				}
+				every_pool_leader = {
+					limit = {
+						has_trait = leader_trait_robotic_surrogate
+					}
+					change_species = event_target:synthspecies@root.owner
+					add_trait_no_notify = leader_trait_synthetic
+					set_age = 1
+					remove_trait = leader_trait_robotic_surrogate
+				}
+				every_envoy = {
+					limit = {
+						exists = species
+						species = {
+							is_robotic = no
+							is_livestock = no
+						}
+					}
+					change_species = event_target:synthspecies@root.owner
+					change_leader_portrait = species
+					set_age = 1
+				}
+				every_controlled_ship = {
+					limit = {
+						is_ship_class = shipclass_colonizer
+						species = {
+							is_robotic = no
+							is_livestock = no
+						}
+					}
+					change_species = event_target:synthspecies@root.owner
+				}
+				every_owned_army = {
+					limit = {
+						exists = species
+						species = {
+							is_robotic = no
+							is_livestock = no
+						}
+						army_type = assault_army
+					}
+					modify_army = {
+						name = random
+						type = "robotic_army"
+						species = event_target:synthspecies@root.owner
+					}
+				}
+				every_owned_army = {
+					limit = {
+						exists = species
+						exists = planet
+						species = {
+							is_robotic = no
+							is_livestock = no
+						}
+						OR = {
+							army_type = defense_army
+							army_type = fanatic_guardian
+						}
+					}
+					modify_army = {
+						name = random
+						type = "robotic_defense_army"
+						species = event_target:synthspecies@root.owner
+					}
+				}
+			}
+		}
+	}
+}
+
+#Time to make Babies
+situation_event = {
+	id = machine_age.3310
+	title = "machine_age.3310.name"
+	desc = "machine_age.3310.desc"
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	immediate = {
+		owner = {
+			country_event = {
+				id = machine_age.3315
+				days = 7
+			}
+			give_technology = {
+				tech = tech_identity_copy
+			}
+			set_country_flag = advanced_identity_creation
+			set_country_flag = edict_subsidized_identity_backups
+			set_country_flag = edict_optimized_identity_creation
+		}
+	}
+	option = {
+		name = "machine_age.3310.a"
+		custom_tooltip = "machine_age.3310.building_tooltip.a.tt"
+		hidden_effect = {
+			owner = {
+				add_research_option = tech_identity_fusion
+			}
+		}
+		destroy_situation = this
+		ai_chance = {
+			factor = 1
+		}
+	}
+	option = {
+		name = "machine_age.3310.b"
+		custom_tooltip = "machine_age.3310.building_tooltip.b.tt"
+		hidden_effect = {
+			owner = {
+				add_research_option = tech_identity_initialization
+			}
+		}
+		destroy_situation = this
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+#Chain End
+country_event = {
+	id = machine_age.3315
+	title = "machine_age.3315.name"
+	desc = "machine_age.3315.desc"
+	picture = GFX_evt_synth_fertility
+	show_sound = event_radio_chatter
+	event_chain = synthetic_fertility_chain
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = synthetics_traditions_unlocked
+		set_country_flag = synthetic_empire
+		set_country_flag = upload_center_available
+	}
+	option = {
+		name = "machine_age.3315.a"
+		end_event_chain = "synthetic_fertility_chain"
+		owner = {
+			add_modifier = {
+				modifier = synthetic_dawn
+				days = -1
+			}
+		}
+		custom_tooltip = machine_age.3315.a.tt
+		owner_main_species = {
+			change_species_characteristics = {
+				add_trait = trait_robot_synthetic_dawn
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_active_tradition = tr_synthetics_finish
+				}
+				country_event = {
+					id = synth.500
+					days = 180
+				}
+			}
+		}
+	}
+}
+
+#Count the total pops at game start - this only works if the two variables don't match
+situation_event = {
+	id = machine_age.3320
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		owner = {
+			export_trigger_value_to_variable = {
+				trigger = count_owned_pop
+				parameters = {
+					limit = {
+						has_trait = trait_pathogenic_genes
+					}
+				}
+				variable = remaining_synth_fert_pops
+			}
+		}
+	}
+}
+
+situation_event = {
+	id = machine_age.3325
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		owner = {
+			export_trigger_value_to_variable = {
+				trigger = count_owned_pop
+				parameters = {
+					limit = {
+						has_trait = trait_pathogenic_genes
+					}
+				}
+				variable = remaining_synth_fert_pops_month_check
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					check_variable_arithmetic = {
+						which = remaining_synth_fert_pops
+						subtract = remaining_synth_fert_pops_month_check
+						value != 0
+					}
+				}
+			}
+			add_situation_progress = owner.value:num_synth_fert_check_the_dead
+			owner = {
+				set_variable = {
+					which = remaining_synth_fert_pops
+					value = remaining_synth_fert_pops_month_check
+				}
+			}
+		}
+	}
+}
