@@ -1,0 +1,70 @@
+@base_tradition_agenda_cost = 7000
+@ascension_agenda_cost = 3500		# Same as short_agenda_cost from traditions
+@ascension_agenda_cooldown = 1080	# 3 Years
+
+agenda_synthetic_evolution_sr = {
+	agenda_cost = @ascension_agenda_cost
+	agenda_cooldown = @ascension_agenda_cooldown
+	allow = {
+		OR = {
+			has_civic = synthetic_fertility_civic
+		}
+	}
+	potential = {
+		is_regular_empire = yes
+		is_individual_machine = no
+		OR = {
+			has_utopia = yes
+			has_machine_age_dlc = yes
+		}
+		NOR = {
+			has_cybernetic_ascension = yes
+			has_genetic_ascension = yes
+			has_psionic_ascension = yes
+			is_natural_design_empire = yes
+		}
+		NAND = {
+			has_technology = tech_powered_exoskeletons
+			has_technology = tech_robotic_workers
+			has_technology = tech_droid_workers
+			has_technology = tech_synthetic_workers
+		}
+	}
+	effect = {
+		inverted_switch = {
+			trigger = has_technology
+			tech_powered_exoskeletons = {
+				add_tech_progress = {
+					tech = tech_powered_exoskeletons
+					progress = @agenda_award_tech_progress
+				}
+			}
+			tech_robotic_workers = {
+				add_tech_progress = {
+					tech = tech_robotic_workers
+					progress = @agenda_award_tech_progress
+				}
+			}
+			tech_droid_workers = {
+				add_tech_progress = {
+					tech = tech_droid_workers
+					progress = @agenda_award_tech_progress
+				}
+			}
+			tech_synthetic_workers = {
+				add_tech_progress = {
+					tech = tech_synthetic_workers
+					progress = @agenda_award_tech_progress
+				}
+			}
+			default = {
+				add_monthly_resource_mult = {
+					resource = engineering_research
+					value = @tier3researchreward
+					min = @tier3researchmin
+					max = @tier3researchmax
+				}
+			}
+		}
+	}
+}

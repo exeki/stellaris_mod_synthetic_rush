@@ -43,10 +43,6 @@ synthetic_fertility_civic = {
 		species_archetype = { NOT = { value = MACHINE } }
 	}
 
-	traits = {
-		trait = trait_pathogenic_genes
-	}
-
 	description = origin_tooltip_synthetic_fertility_effects
 	negative_description = origin_tooltip_synthetic_fertility_negative_effects
 	advanced_start = no

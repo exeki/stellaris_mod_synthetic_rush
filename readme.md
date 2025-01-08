@@ -4,6 +4,9 @@ This modification allows you to take "Synthetic Fertility" as a civic, which wil
 
 The added civic can be removed by reforming. I highly recommend not doing this until the population transformation is fully completed, as the necessary events may not begin.
 
+Civic does NOT add "Defective Genes" to the population of the planet, but it also does not add a repository of personalities to your planet. 
+It is possible to use the council's "Synthetic evolution" program.
+
 Partially overwrites event files (only what concerns synthetic fertility):
 1. events\anomaly_events_1.txt
 2. events\machine_age_situation_events_2.txt
@@ -24,11 +27,15 @@ Thanks MingCR from Stellaris Modding Den for help!
 
 Добавленный цивик можно убрать при помощи реформирования. Очень не рекомендую этого делать до полного завершения трансформации населения, тк нужные эвенты могут не начаться.
 
+Цивик НЕ добавляет населению трейт "Деффектные гены", но так же не добавляет вам на планету репозиторий личностей. 
+Есть возможность использовать программу совета "Синтетическая эволюция".
+
 Частично перезаписывает файлы эвентов (только то, что касается синтетической фертильности):
 1. events\anomaly_events_1.txt
 2. events\machine_age_situation_events_2.txt
 3. events\origin_events_machine_age.txt
 4. events\game_start.txt
+
 Полностью перезаписывает файлы традиции синтетиков:
 common\traditions\01_synthetics.txt
 

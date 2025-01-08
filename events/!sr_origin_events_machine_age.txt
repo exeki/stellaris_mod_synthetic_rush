@@ -18,7 +18,7 @@ namespace = machine_age
 # From = Country
 # FromFrom = Pop
 #Synthetic Fertility Killing Pops Events
-country_event = {
+planet_event = {
 	id = machine_age.3000
 	hide_window = yes
 	is_triggered_only = yes
